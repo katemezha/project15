@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-12">
+      <h1>{{ title }}</h1>
+    </div>
+  </div>
+  <app-addform-worker (addWorker)="onAddWorker($event)"></app-addform-worker>
+
+  <div class="row my-5">
+    <div class="col-12">
+      <h5>Поиск по странице</h5>
+      <input type="search" class="form-control" placeholder="Имя/Фамилия/Телефон" [(ngModel)]="searchStr" />
+    </div>
+  </div>
+
+
+  <app-table-workers 
+    [title]="'Программисты'"
+    [workers]="getByType(myWorkerType.programmer)"
+    [searchStr]="searchStr"
+    (editWorker)="onEditById($event)"
+    (deleteWorker)="onDeleteById($event)"
+  ></app-table-workers>
+  <app-table-workers 
+    [title]="'Дизайнеры'"
+    [workers]="getByType(myWorkerType.designer)"
+    [searchStr]="searchStr"
+    (editWorker)="onEditById($event)"
+    (deleteWorker)="onDeleteById($event)"
+  ></app-table-workers>
+  <app-table-workers 
+    [title]="'Рекламщики'"
+    [workers]="getByType(myWorkerType.copywriter)"
+    [searchStr]="searchStr"
+    (editWorker)="onEditById($event)"
+    (deleteWorker)="onDeleteById($event)"
+  ></app-table-workers>
+  <app-table-workers
+    [title]="'Менеджеры'"
+    [workers]="getByType(myWorkerType.manager)"
+    [searchStr]="searchStr"
+    (editWorker)="onEditById($event)"
+    (deleteWorker)="onDeleteById($event)"
+  ></app-table-workers>
+
+
+
+
+<div *ngIf="this.modal" [formGroup]="editForm" class = "new-modal">
+<hr/>
+  <div class = "new-modal__title">
+    <h3>Редактирование</h3>
+   
+  </div>
+  <div class = "new-modal__body">
+    <input type="hidden" [(ngModel)]="id" formControlName="id">
+    <div class="col-4 mb-2">
+      <input type="text" name="" [(ngModel)]="name" formControlName="name">
+    </div>
+    <div class="col-4 mb-2">
+      <input type="text" name="" [(ngModel)]="surname" formControlName="surname">
+    </div>
+    <div class="col-4 mb-2">
+      <input type="text" [textMask]="{mask: mask}" name="" [(ngModel)]="phone" formControlName="phone">
+    </div>
+    <div class="col-4">
+      <select class="custom-select" [(ngModel)]="type" formControlName="type">
+        <option [ngValue]="myWorkerType.programmer">Программист</option>
+        <option [ngValue]="myWorkerType.designer">Дизайнер</option>
+        <option [ngValue]="myWorkerType.copywriter">Рекламщик</option>
+        <option [ngValue]="myWorkerType.manager">Менеджер</option>
+      </select>
+    </div>
+  </div>
+  <div class = "new-modal__footer ml-3 mt-2">
+    <button (click)="onClose()" class = "btn btn-outline-danger btn-sm modal-exit mr-2">Отмена</button>
+    <button (click)="onEditData()" class = "btn btn-outline-success btn-sm modal-accept">Применить</button>
+  </div>
+</div>
+<hr />
